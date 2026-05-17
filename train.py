@@ -114,27 +114,13 @@ def train_model(model, train_loader, val_loader, optimizer, criterion, device, p
 
 
 def freeze_transformer_layers(model, num_layers_to_freeze):
-    """
-    Freezes the embedding layer and the bottom `num_layers_to_freeze` encoder
-    layers of a HuggingFace BERT-style model.
 
-    Strategy:
-      - Embeddings are always frozen when num_layers_to_freeze > 0.
-      - Encoder layers 0..(num_layers_to_freeze-1) are frozen.
-      - Upper encoder layers + pooler + classifier remain trainable.
-
-    For a 12-layer BERT with num_layers_to_freeze=6:
-      Frozen  : embeddings, layers 0-5  (general language representations)
-      Trainable: layers 6-11, pooler, classifier  (task-specific adaptation)
-    """
     if num_layers_to_freeze <= 0:
         return
 
-    # Freeze embeddings
     for param in model.base_model.embeddings.parameters():
         param.requires_grad = False
 
-    # Freeze the bottom N encoder layers
     for layer_idx in range(num_layers_to_freeze):
         for param in model.base_model.encoder.layer[layer_idx].parameters():
             param.requires_grad = False
@@ -146,7 +132,6 @@ def freeze_transformer_layers(model, num_layers_to_freeze):
 
 
 def build_model_fn(model_type, config, vocab_size=None, pad_idx=None):
-    """Factory function to initialize the requested model dynamically."""
     if model_type == 'bilstm':
         return SentimentBiLSTM(
             vocab_size=vocab_size,
@@ -172,10 +157,8 @@ def build_model_fn(model_type, config, vocab_size=None, pad_idx=None):
 
 
 def apply_dry_run(dataloader):
-    """Truncates the dataset to just 2 batches for testing the pipeline."""
     subset_indices = list(range(min(64, len(dataloader.dataset))))
     subset = Subset(dataloader.dataset, subset_indices)
-    # Recreate dataloader with subset
     return torch.utils.data.DataLoader(subset, batch_size=dataloader.batch_size,
                                        sampler=None, shuffle=False)
 

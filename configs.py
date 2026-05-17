@@ -10,11 +10,11 @@ lstm_hyperparameters = {
 
 
 transformer_hyperparameters = {
-    'learning_rate': [2e-5, 3e-5, 5e-5],   # Fine-tuning range for BERT encoders
+    'learning_rate': [2e-5, 3e-5, 5e-5],
     'batch_size': [16, 32],
     'weight_decay': [0.01, 0.005],
     'optimizer': ['Adam', 'AdamW'],
     'epochs': [20],
     'patience': [5],
-    'freeze_layers': [6]                    # Freeze bottom N encoder layers (0 = none, 6 = half)
+    'freeze_layers': [6]
 }
