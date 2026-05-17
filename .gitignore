@@ -39,7 +39,7 @@ ENV/
 *.onnx
 *.bin
 *_results/
-evaluation_results/
+results/
 best_model/
 
 # ===========================
