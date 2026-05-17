@@ -183,7 +183,7 @@ The grid search explores the following hyperparameters:
 
 | Parameter | Values | Notes |
 |-----------|--------|-------|
-| Learning Rate | 1e-5, 5e-5 | Safe fine-tuning range for BERT encoders |
+| Learning Rate | 2e-5, 3e-5, 5e-5 | Safe fine-tuning range for BERT encoders |
 | Batch Size | 16, 32 | |
 | Weight Decay | 0.01, 0.005 | |
 | Optimizer | Adam, AdamW | |
@@ -191,19 +191,19 @@ The grid search explores the following hyperparameters:
 | Patience | 5 | Early stopping epochs without improvement |
 | Freeze Layers | 6, 0 | Number of bottom encoder layers to freeze (0 = full fine-tuning) |
 
-> **Why freeze?** AraBERT/MARBERT have 12 encoder layers. The lower layers encode general Arabic morphology and syntax — already well-learned from pre-training. Freezing them (along with embeddings) prevents catastrophic forgetting on a small dataset (~1.5K samples) and forces adaptation in the upper, more task-sensitive layers.
+> **Why freeze?** AraBERT/MARBERT have 12 encoder layers. The lower layers encode general Arabic morphology and syntax , already well-learned from pre-training. Freezing them (along with embeddings) prevents catastrophic forgetting on a small dataset (~1.5K samples) and forces adaptation in the upper, more task-sensitive layers.
 
 **BiLSTM:**
 
-| Parameter | Values | Notes |
-|-----------|--------|-------|
-| Learning Rate | 1e-3, 5e-4 | Higher LR appropriate for training from scratch |
-| Batch Size | 16, 32 | |
-| Weight Decay | 1e-4, 1e-5 | |
-| Dropout | 0.3, 0.5 | |
-| Optimizer | Adam, AdamW | |
-| Epochs | 50 | More epochs needed since trained from scratch |
-| Patience | 5 | Early stopping epochs without improvement |
+| Parameter | Values           | Notes |
+|-----------|------------------|-------|
+| Learning Rate | 1e-3, 1e-2, 1e-4 | Higher LR appropriate for training from scratch |
+| Batch Size | 16, 32           | |
+| Weight Decay | 0.01, 0.005      | |
+| Dropout | 0.3, 0.5         | |
+| Optimizer | Adam, AdamW      | |
+| Epochs | 50               | More epochs needed since trained from scratch |
+| Patience | 10               | Early stopping epochs without improvement |
 
 ---
 
