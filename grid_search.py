@@ -40,6 +40,7 @@ def run_grid_search(model_name, param_grid, get_model_fn, train_dataloaders_fn, 
         writer = csv.writer(file)
         header = list(keys) + metric_keys + ['stopped_epoch']
         writer.writerow(header)
+        file.flush()
 
         for idx, config in enumerate(config_combinations):
             print(f"\n--- Config {idx + 1}/{len(config_combinations)}: {config} ---")
@@ -77,6 +78,7 @@ def run_grid_search(model_name, param_grid, get_model_fn, train_dataloaders_fn, 
 
             row = list(config.values()) + metric_values + [stopped_epoch]
             writer.writerow(row)
+            file.flush()
 
             if best_epoch_metrics['val_macro_f1'] > best_overall_f1:
                 best_overall_f1 = best_epoch_metrics['val_macro_f1']
